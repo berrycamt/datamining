@@ -19,4 +19,8 @@ df = pd.read_csv('NIJ2016_JAN01_JUL31.csv')
 df['FormalDate'] = pd.to_datetime(df.occ_date)
 df['Weekday'] = pd.Series(map(lambda x: x.weekday(), df.FormalDate)) # Mon-Sun : 0-6
 
+# save
+np.save('dataset', df)
+colnames = df.columns
+np.save('colnames', colnames)
 # now this can be grouped and manipulated per variable ...

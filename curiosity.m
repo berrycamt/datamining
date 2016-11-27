@@ -27,7 +27,7 @@ for i = 1:size(PortPoD,1)
     text(xavg, yavg, PortPoD(i).DISTRICT)
     hold on
 end
-%hold off
+hold off
 set(gca,'xticklabel',[])
 set(gca,'yticklabel',[])
 % print -djpeg 'figure1.jpg'

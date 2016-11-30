@@ -16,6 +16,8 @@ end
 % match for the plot below. XML contains info on units and such
 % the bounds matrix has x1,x2,y1,y2,center_x,center_y
 bounds = zeros(size(PortPoD,1),6);
+figure
+hold on
 for i = 1:size(PortPoD,1)
     plot(PortPoD(i).X, PortPoD(i).Y,'k')
     xbounds = PortPoD(i).BoundingBox(:,1);
@@ -25,7 +27,6 @@ for i = 1:size(PortPoD,1)
     bounds(i,:) = [xbounds(1),xbounds(2),ybounds(1),ybounds(2),xavg,yavg];
     % we will use the bounding box to obtain the center and print #
     text(xavg, yavg, PortPoD(i).DISTRICT)
-    hold on
 end
 hold off
 set(gca,'xticklabel',[])
@@ -78,18 +79,41 @@ for i = 1:size(indices,1)
         k = k+1;
     end
 end
-scatter(X,Y)
+scatter(X,Y,'k')
+set(gca,'xticklabel',[])
+set(gca,'yticklabel',[])
 
 %%
+figure
+hold on
 for i = 1:60
     bounds = PortPoD(i).BoundingBox;
     x1 = bounds(1,1);
     x2 = bounds(2,1);
     y1 = bounds(1,2);
     y2 = bounds(2,2);
-     plot([x1 x1],[y1,y2],'r',[x2,x2],[y1,y2],'r',[x1,x2],[y1,y1],'r',[x1,x2],[y2,y2],'r')
-     hold on
+    plot([x1 x1],[y1,y2],'r',[x2,x2],[y1,y2],'r',[x1,x2],[y1,y1],'r',[x1,x2],[y2,y2],'r')
 end
 hold off
+set(gca,'xticklabel',[])
+set(gca,'yticklabel',[])
 % after visual inspection of the tract number imputed in for the first
 % missing observation, we are correct.
+
+%% plot boxes that were assigned to some observations.
+boxIDs = [1,38,39,39,39,40,33,4,30];
+marker = 'rkmmmgbcy';
+figure
+hold on
+for i=1:9
+    bounds = PortPoD(boxIDs(i)).BoundingBox;
+    x1 = bounds(1,1);
+    x2 = bounds(2,1);
+    y1 = bounds(1,2);
+    y2 = bounds(2,2);
+    plot([x1 x1],[y1,y2],marker(i),[x2,x2],[y1,y2],marker(i),[x1,x2],[y1,y1],marker(i),[x1,x2],[y2,y2],marker(i))
+    scatter(ShapeFile(i).X,ShapeFile(i).Y,marker(i))
+end
+hold off
+set(gca,'xticklabel',[])
+set(gca,'yticklabel',[])

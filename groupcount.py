@@ -41,7 +41,16 @@ while ind < (counted_df.shape[0]-3):
         ind += 4
 
 agg_df = pd.DataFrame({'boxID':list(range(1,61)), 'burg':burg, 'mvt': mvt, 'other':other, 'stc': stc})
-#np.save('boxesdata', agg_df)
-#np.save('boxesdatacols', agg_df.columns)
 
-#agg_df.to_csv('boxesdata.csv')
+# now we wish to add district number and precinct code. we can also merge with the largest dataset
+dist_nber = pd.read_csv('distNber.csv', header=None)
+dist_nber.columns = ['boxID', 'district']
+# precinct based on boxID: 1:20 : NO, 21:40 : CE, 41:60 : EA
+precinct = list(map(lambda x: 'NO' if x <= 20 else ('CE' if x <= 40 else 'EA'), range(1,61)))
+dist_nber['precinct'] = pd.Series(precinct)
+merge_agg = pd.merge(agg_df,dist_nber,on='boxID')
+
+#np.save('boxesdata', merge_agg)
+#np.save('boxesdatacols', merge_agg.columns)
+
+#merge_agg.to_csv('boxesdata.csv')

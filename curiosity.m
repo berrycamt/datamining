@@ -117,3 +117,10 @@ end
 hold off
 set(gca,'xticklabel',[])
 set(gca,'yticklabel',[])
+
+%% Obtain objectid and district # and precint
+myarray = zeros(60,2);
+for i=1:60
+    myarray(i,:) = [i, str2double(PortPoD(i).DISTRICT)];
+end
+%csvwrite('distNber.csv', myarray) % district number
